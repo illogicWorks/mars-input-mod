@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+}
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    maven {
+        url "https://maven.fabricmc.net/"
+    }
+	maven {
+		url "https://jitpack.io"
+	}
+    mavenCentral()
+}
+
+dependencies {
+	// Depend on Deimos. This also brings in Fabric Loader and Mixin
+    implementation 'com.github.illogicWorks:deimos:0.1'
+    // Add Mars
+    implementation files('Mars.jar')
+    
+    // Add below any extra dependencies you need, though make sure you somehow add
+    // them to your jar later! Deimos supports Jar-in-jar (given it uses Fabric Loader), but
+    // there's no Gradle tooling to easily JiJ jars here
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	// Deimos needs Java 11. Though feel free to bump it (do it also at the top for better editor support)
+	it.options.release = 11
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.archivesBaseName}"}
+	}
+}
+
+// Ideally you should use the launch config
+task Run(type: JavaExec) {
+	// Use runtime classpath
+    classpath sourceSets.main.runtimeClasspath
+    // Set main class to Knot
+    mainClass = "net.fabricmc.loader.impl.launch.knot.KnotClient"
+    // Mark as development environment
+    systemProperty "fabric.development", "true"
+    // Set working directory
+    File runDir = new File(projectDir, 'run/')
+    runDir.mkdir() // (create if needed)
+    workingDir = runDir
+}
