@@ -1,22 +1,26 @@
-# Deimos Example Mod
+# Input Mod
 
-A template mod for using [Deimos](https://github.com/illogicWorks/Deimos) to mod Mars, using the Fabric modding toolchain.
+This mod adds a new syscall to check if a keyboard key is being pressed, without blocking code execution.
 
 ## Usage
 
-Download the example mod, change the values in the `gradle.properties` and `fabric.mod.json`, and replace all `modid` you find,
-drop the `Mars.jar` in this directory and start modding.
+Make sure you have [Deimos](https://github.com/illogicWorks/deimos) installed.
 
-To debug your mod, create a launch configuration with the main class being `KnotClient` (`net.fabricmc.loader.impl.launch.knot.KnotClient`)
-and the vm argument `-Dfabric.development=true`. It's also recommended to change the working directory to the `run` folder (in Eclipse you can just do: `${workspace_loc:NameOfYourProject}/run/`). You can also use the gradle run task instead, but a run configuration is generally better.
+Download the latest release mod, add it to your mods folder, and that's it!
 
-Optionally (though not tested), the Mixin support from the MCDev plugin may be useful for modding with Deimos, and you should also be able to
-setup the annotation processor for Eclipse as mentioned in the Mixin readme.
+| Syscall Code ($v0) | Parameters               | Return value                          | Description                                                           |
+|--------------------|--------------------------|---------------------------------------|-----------------------------------------------------------------------|
+|         60         | $a0 = key character code | $v0 = 1 \| 0 `1` if true `0` if false | Checks if the key with specified character code is currently pressed. |
 
-It's likely that checking FabricMC's resources on mixins and starting modding will be useful if you haven't ever used them.
-
-To build the mod, run `gradlew build` (`./gradlew build` on linux), the resulting jar will be in `build/libs/`.
+### Example
+```asm
+.text
+li $v0, 60 #; Load syscall code into $v0
+li $a0, 'a' #; Load charcode for the "a" key
+syscall
+#; If the "a" key was pressed during the syscall there is a 1 in $v0, else there is a 0.
+```
 
 ## License
 
-This template is under CC0. Make sure you remember to change the `LICENSE` file if you want your mod under a different license!
+This mod is under GPLv3. Check the [`LICENSE`](LICENSE) file for more information.
