@@ -2,12 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "remap": false,
-  "package": "com.example.mixin",
+  "package": "me.plopez.inputmod.mixin",
   "compatibilityLevel": "JAVA_11",
   "mixins": [
   ],
   "client": [
-    "ExampleMixin",
     "SyscallLoaderMixin"
   ],
   "injectors": {

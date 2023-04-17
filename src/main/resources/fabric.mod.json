@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "inputmod",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Input Mod",
+  "description": "This mod adds a syscall to check if a key is pressed",
   "authors": [
-    "Me!"
+    "Plopez"
   ],
   "contact": {
-    "homepage": "https://example.org/",
-    "sources": "https://github.com/illogicworks/deimos-example-mod"
+    "homepage": "https://plopez.me/",
+    "sources": "https://github.com/plopez01/mars-input-mod"
   },
 
-  "license": "CC0-1.0",
+  "license": "GPLv3",
   "icon": "assets/modid/icon.png",
 
   "entrypoints": {
     "preLaunch": [
-      "com.example.ExamplePreLaunch"
+      "me.plopez.inputmod.PreLaunch"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "inputmod.mixins.json"
   ],
 
   "depends": {

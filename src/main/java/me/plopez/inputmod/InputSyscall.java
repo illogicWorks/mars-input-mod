@@ -1,4 +1,4 @@
-package com.example;
+package me.plopez.inputmod;
 
 import mars.ProcessingException;
 import mars.ProgramStatement;
@@ -15,7 +15,7 @@ public class InputSyscall extends AbstractSyscall {
 	@Override
 	public void simulate(ProgramStatement statement) throws ProcessingException {
 		char keyCode = (char) RegisterFile.getValue(4); // Read parameter from a0
-		SystemIO.printString(keyCode + "");
+		RegisterFile.updateRegister(2, Keyboard.isKeyPressed(keyCode) ? 1 : 0);
 	}
 
 }
